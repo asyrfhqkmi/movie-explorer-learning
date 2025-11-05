@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Movie, SearchState } from '@/lib/types'
+import MovieCard from './MovieCard'
 
 interface SearchBarProps {
   onSearchResults?: (results: Movie[]) => void
@@ -65,7 +66,7 @@ export default function SearchBar({ onSearchResults }: SearchBarProps) {
   }
 
   return (
-    <section className="w-full max-w-2xl mx-auto">
+    <section className="w-full max-w-7xl mx-auto">
       {/* Search Form */}
       <form onSubmit={handleSearch} className="mb-6 flex gap-2">
         <Input
@@ -87,17 +88,29 @@ export default function SearchBar({ onSearchResults }: SearchBarProps) {
         </Alert>
       )}
 
-      {/* Results Count */}
+      {/* Results Grid */}
       {state.results.length > 0 && (
-        <p className="text-sm text-gray-600 mb-4">
-          Found {state.results.length} movies
-        </p>
+        <div className="mt-8">
+          <h2 className="text-2xl font-bold mb-4">
+            Found {state.results.length} movies
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {state.results.map((movie) => (
+              <MovieCard
+                key={movie.id}
+                movie={movie}
+                isFavorite={false}
+              />
+            ))}
+          </div>
+        </div>
       )}
 
-      {/* Results - For now, just show count */}
-      {state.results.length > 0 && (
-        <div className="text-gray-600">
-          <p>Movies found! (Display coming Day 2)</p>
+      {/* No Results Message */}
+      {!state.loading && state.query && state.results.length === 0 && !state.error && (
+        <div className="text-center py-12 mt-8">
+          <p className="text-lg font-medium">No movies found for "{state.query}"</p>
+          <p className="text-gray-500 mt-2">Try searching for something else</p>
         </div>
       )}
     </section>
