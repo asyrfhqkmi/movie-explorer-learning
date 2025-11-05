@@ -22,6 +22,9 @@ export default function MovieCard({ movie }: MovieCardProps) {
   const year = movie.release_date?.split('-')[0] || 'Unknown'
   const rating = movie.vote_average?.toFixed(1) || 'N/A'
 
+  /**
+   * Toggle the current movie's favorite status using the favorites store.
+   */
   const handleToggleFavorite = (): void => {
     if (isLiked) {
       removeFavorite(movie.id)

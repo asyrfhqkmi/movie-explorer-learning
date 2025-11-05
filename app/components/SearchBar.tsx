@@ -20,6 +20,11 @@ export default function SearchBar({ onSearchResults }: SearchBarProps) {
     error: ''
   })
 
+  /**
+   * Submit handler that validates input, calls the search API,
+   * updates loading/error/results state, and emits results upward.
+   * @param e - Form submit event
+   */
   const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -57,7 +62,7 @@ export default function SearchBar({ onSearchResults }: SearchBarProps) {
       }))
 
       onSearchResults?.(data.results || [])
-    } catch (error) {
+    } catch {
       setState(prev => ({
         ...prev,
         error: 'Failed to fetch movies. Try again.',
@@ -70,16 +75,20 @@ export default function SearchBar({ onSearchResults }: SearchBarProps) {
     <section className="w-full max-w-2xl mx-auto">
       {/* Search Form */}
       <form onSubmit={handleSearch} className="mb-6 flex gap-2">
-        <Input
-          type="text"
-          value={state.query}
-          onChange={(e) => setState(prev => ({ ...prev, query: e.target.value }))}
-          placeholder="Search for a movie..."
-          className="flex-1"
-        />
-        <Button type="submit" disabled={state.loading}>
-          {state.loading ? 'Searching...' : 'Search'}
-        </Button>
+<Input
+  type="text"
+  value={state.query}
+  onChange={(e) => setState(prev => ({ ...prev, query: e.target.value }))}
+  placeholder="Search for a movie..."
+  aria-label="Search movies by title"
+/>
+<Button
+  type="submit"
+  disabled={state.loading}
+  aria-busy={state.loading}
+>
+  {state.loading ? 'Searching...' : 'Search'}
+</Button>
       </form>
 
             {/* Error Alert */}

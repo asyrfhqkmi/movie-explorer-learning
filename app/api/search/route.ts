@@ -13,6 +13,15 @@ interface TMDBResponse {
   }>
 }
 
+/**
+ * Handle GET /api/search requests to fetch movies from TMDB based on query string.
+ *
+ * Validates input, calls the external TMDB API, normalizes the response
+ * to the internal `Movie` shape, and returns a typed JSON response.
+ *
+ * @param request - Next.js request containing the `q` search param
+ * @returns JSON Response with `SearchResponse` or an error payload
+ */
 export async function GET(request: NextRequest): Promise<Response> {
   // Get the search query from URL
   const { searchParams } = new URL(request.url)
