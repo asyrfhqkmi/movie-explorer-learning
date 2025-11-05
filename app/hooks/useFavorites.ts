@@ -6,7 +6,9 @@ import { Movie } from '@/lib/types'
 interface UseFavoritesReturn {
   favorites: Movie[]
   addFavorite: (movie: Movie) => void
+  addMultipleFavorites: (movies: Movie[]) => void
   removeFavorite: (movieId: number) => void
+  removeMultipleFavorites: (movieIds: number[]) => void
   isFavorite: (movieId: number) => boolean
   isLoading: boolean
 }
@@ -49,14 +51,43 @@ export function useFavorites(): UseFavoritesReturn {
   }, [favorites, isLoading])
 
   const addFavorite = (movie: Movie): void => {
-    // Prevent duplicates by checking if movie already exists
-    if (!favorites.some((fav) => fav.id === movie.id)) {
-      setFavorites([...favorites, movie])
-    }
+    // Use functional update to always work with latest state
+    setFavorites((prevFavorites) => {
+      // Prevent duplicates by checking if movie already exists
+      if (!prevFavorites.some((fav) => fav.id === movie.id)) {
+        return [...prevFavorites, movie]
+      }
+      return prevFavorites
+    })
+  }
+
+  const addMultipleFavorites = (movies: Movie[]): void => {
+    // Use functional update to batch add multiple movies at once
+    setFavorites((prevFavorites) => {
+      const existingIds = new Set(prevFavorites.map((fav) => fav.id))
+      const newMovies = movies.filter((movie) => !existingIds.has(movie.id))
+      
+      if (newMovies.length === 0) {
+        return prevFavorites // No new movies to add
+      }
+      
+      return [...prevFavorites, ...newMovies]
+    })
   }
 
   const removeFavorite = (movieId: number): void => {
-    setFavorites(favorites.filter((fav) => fav.id !== movieId))
+    // Use functional update to always work with latest state
+    setFavorites((prevFavorites) => 
+      prevFavorites.filter((fav) => fav.id !== movieId)
+    )
+  }
+
+  const removeMultipleFavorites = (movieIds: number[]): void => {
+    // Use functional update to batch remove multiple movies at once
+    const movieIdSet = new Set(movieIds)
+    setFavorites((prevFavorites) => 
+      prevFavorites.filter((fav) => !movieIdSet.has(fav.id))
+    )
   }
 
   const isFavorite = (movieId: number): boolean => {
@@ -66,7 +97,9 @@ export function useFavorites(): UseFavoritesReturn {
   return {
     favorites,
     addFavorite,
+    addMultipleFavorites,
     removeFavorite,
+    removeMultipleFavorites,
     isFavorite,
     isLoading
   }

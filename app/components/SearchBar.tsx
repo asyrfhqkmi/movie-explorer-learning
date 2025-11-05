@@ -99,7 +99,6 @@ export default function SearchBar({ onSearchResults }: SearchBarProps) {
               <MovieCard
                 key={movie.id}
                 movie={movie}
-                isFavorite={false}
               />
             ))}
           </div>

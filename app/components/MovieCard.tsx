@@ -40,7 +40,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
             alt={movie.title || 'Movie poster'}
             fill
             className="object-cover"
-      />
+          />
         </div>
       </CardHeader>
 
@@ -67,12 +67,12 @@ export default function MovieCard({ movie }: MovieCardProps) {
           {movie.overview || 'No description available'}
         </p>
 
-        {/* Favorite Button - Now Functional */}
+        {/* Favorite Button */}
         <Button
           onClick={handleToggleFavorite}
           variant={isLiked ? 'destructive' : 'default'}
           className="w-full"
->
+        >
           {isLiked ? '❤️ Remove from Favorites' : '🤍 Add to Favorites'}
         </Button>
       </CardContent>
