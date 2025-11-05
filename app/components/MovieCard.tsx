@@ -22,9 +22,6 @@ export default function MovieCard({ movie }: MovieCardProps) {
   const year = movie.release_date?.split('-')[0] || 'Unknown'
   const rating = movie.vote_average?.toFixed(1) || 'N/A'
 
-  /**
-   * Toggle the current movie's favorite status using the favorites store.
-   */
   const handleToggleFavorite = (): void => {
     if (isLiked) {
       removeFavorite(movie.id)
@@ -72,12 +69,13 @@ export default function MovieCard({ movie }: MovieCardProps) {
 
         {/* Favorite Button */}
         <Button
-          onClick={handleToggleFavorite}
-          variant={isLiked ? 'destructive' : 'default'}
-          className="w-full"
-        >
-          {isLiked ? '❤️ Remove from Favorites' : '🤍 Add to Favorites'}
-        </Button>
+  onClick={handleToggleFavorite}
+  variant={isLiked ? 'destructive' : 'default'}
+  className="w-full"
+  aria-label={isLiked ? `Remove ${movie.title} from favorites` : `Add ${movie.title} to favorites`}
+>
+  {isLiked ? '❤️ Remove from Favorites' : '🤍 Add to Favorites'}
+</Button>
       </CardContent>
     </Card>
   )}
