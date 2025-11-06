@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Star, Heart, HeartOff } from 'lucide-react'
 import { Movie } from '@/lib/types'
 import { useFavorites } from '@/app/hooks/useFavorites'
 
@@ -53,7 +54,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
 
         {/* Rating and Year */}
         <div className="flex items-center gap-2 mb-3">
-          <span className="text-lg">⭐</span>
+          <Star className="h-5 w-5 text-yellow-500" aria-hidden="true" />
           <Badge variant="secondary">
             {rating} / 10
           </Badge>
@@ -69,13 +70,23 @@ export default function MovieCard({ movie }: MovieCardProps) {
 
         {/* Favorite Button */}
         <Button
-  onClick={handleToggleFavorite}
-  variant={isLiked ? 'destructive' : 'default'}
-  className="w-full"
-  aria-label={isLiked ? `Remove ${movie.title} from favorites` : `Add ${movie.title} to favorites`}
->
-  {isLiked ? '❤️ Remove from Favorites' : '🤍 Add to Favorites'}
-</Button>
+          onClick={handleToggleFavorite}
+          variant={isLiked ? 'destructive' : 'default'}
+          className="w-full"
+          aria-label={isLiked ? `Remove ${movie.title} from favorites` : `Add ${movie.title} to favorites`}
+        >
+          {isLiked ? (
+            <>
+              <HeartOff className="mr-2 h-5 w-5" aria-hidden="true" />
+              Remove from Favorites
+            </>
+          ) : (
+            <>
+              <Heart className="mr-2 h-5 w-5" aria-hidden="true" />
+              Add to Favorites
+            </>
+          )}
+        </Button>
       </CardContent>
     </Card>
   )}

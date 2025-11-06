@@ -2,6 +2,7 @@
 
 import SearchBar from './components/SearchBar'
 import FavoritesSection from './components/FavoritesSection'
+import { Film, Search } from 'lucide-react'
 
 export default function Home() {
   return (
@@ -9,7 +10,10 @@ export default function Home() {
       {/* Sticky Header */}
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-gray-200 shadow-sm">
         <div className="max-w-6xl mx-auto px-4 py-4">
-          <h1 className="text-3xl md:text-4xl font-bold">🎬 Movie Explorer</h1>
+          <h1 className="text-3xl md:text-4xl font-bold">
+            <Film className="inline-block mr-2 h-7 w-7 align-[-2px]" aria-hidden="true" />
+            Movie Explorer
+          </h1>
           <p className="text-sm md:text-base text-gray-600">
             Search millions of movies and save your favorites
           </p>
@@ -23,7 +27,10 @@ export default function Home() {
 
         {/* Search Section */}
         <section className="mt-12">
-          <h2 className="text-2xl md:text-3xl font-bold mb-6">🔍 Search Movies</h2>
+          <h2 className="text-2xl md:text-3xl font-bold mb-6">
+            <Search className="inline-block mr-2 h-6 w-6 align-[-2px]" aria-hidden="true" />
+            Search Movies
+          </h2>
           <SearchBar />
         </section>
       </main>
